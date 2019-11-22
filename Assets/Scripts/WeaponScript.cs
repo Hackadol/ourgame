@@ -19,7 +19,7 @@ public class WeaponScript : MonoBehaviour
 
     }
 
-    public void Attack(float angle, float force)
+    public void Attack(float angle, float force, bool reverse)
     {
         var shotTransform = Instantiate(shotPrefab) as Transform;
 
@@ -33,7 +33,13 @@ public class WeaponScript : MonoBehaviour
         Rigidbody2D rb = shot.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.AddForce(new Vector2(x,y));
+            if (!reverse )
+            {
+                rb.AddForce(new Vector2(x, y));
+            } else
+            {
+                rb.AddForce(new Vector2(-x, y));
+            }
         }
     }
 }

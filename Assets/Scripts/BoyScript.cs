@@ -10,10 +10,13 @@ public class BoyScript : MonoBehaviour
     public float angle = 45f;
     public float force = 450f;
     public float forceLimit = 100000f;
+    public float reverseDelay = 10f; //Задержка при повороте
     public float forceChange = 1f; //Скорость изменения силы 
     public float angleChange = 0.2f; //Скорость изменения угла 
     private Vector2 movement;
     private Rigidbody2D rigidbodyComponent;
+    bool reverse = false;
+    float reverseTime = 0;
 
 
     void Start()
@@ -41,7 +44,7 @@ public class BoyScript : MonoBehaviour
         if (Input.GetButtonDown("Fire1") == true)
         {
             WeaponScript wep = this.transform.GetComponent<WeaponScript>();
-            wep.Attack(angle, force);
+            wep.Attack(angle, force,reverse);
         }
         if (Input.GetButton("Angle-") == true)
         {
@@ -64,6 +67,22 @@ public class BoyScript : MonoBehaviour
             {
 
                 force = force + forceChange;
+            }
+        }
+
+        if (Input.GetButton("Reverse") == true)
+        {
+            Debug.Log(reverseTime);
+            if (reverseTime <= 0)
+            {
+
+                this.transform.Rotate(new Vector3(0, 180, 0));
+                reverse = !reverse;
+                reverseTime = reverseDelay;
+            } 
+            if (reverseTime > 0)
+            {
+                reverseTime = reverseTime - 1;
             }
         }
 
